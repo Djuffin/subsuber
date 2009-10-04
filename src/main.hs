@@ -1,10 +1,11 @@
 module Main () where
 
-import SRT
 import Control.Monad
 
+import SRT
 import Timing
 import Subtitle
+import Tests
 
 
 f = "1\n" ++
@@ -17,7 +18,6 @@ f = "1\n" ++
     "Vi talar inte laengre om Wade. Det aer\n"++ 
     "som om han aldrig hade existerat."
 
-
 getSrt :: [Subtitle] 
 getSrt = case readSrtFile f of
     Left err -> []
@@ -26,4 +26,5 @@ getSrt = case readSrtFile f of
 
 e = allAfter (Timing 0 2 31 561) getSrt
 
-main = putStr $ renderSrtFile e
+main = run_tests
+--putStr $ renderSrtFile e

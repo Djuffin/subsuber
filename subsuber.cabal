@@ -6,7 +6,8 @@ license: AllRightsReserved
 license-file: ""
 copyright:
 maintainer:
-build-depends: base -any, parsec -any, regex-posix -any, time -any
+build-depends: QuickCheck -any, base -any, parsec -any,
+               regex-posix -any, time -any
 stability:
 homepage:
 package-url:
@@ -38,7 +39,7 @@ includes:
 install-includes:
 include-dirs:
 hs-source-dirs: src
-other-modules: Main SRT Subtitle Timing Utils
+other-modules: SRT Utils Main Subtitle Timing Tests
 ghc-prof-options:
 ghc-shared-options:
 ghc-options:
