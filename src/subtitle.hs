@@ -38,6 +38,10 @@ reIndex subs = zipWith combine [1..] subs
 order :: Subtitles -> Subtitles
 order = reIndex . sort
 
+append :: Subtitles -> Timing -> Subtitles -> Subtitles
+append subs1 gap subs2 = order (subs1 ++ map (flip shiftSubtitle gap) subs2)
+
+
 
 instance Show Subtitle where
 	show (Subtitle index beginning end text) = 
