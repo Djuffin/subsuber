@@ -12,7 +12,7 @@ data Subtitle = Subtitle {
 		text :: String		
 	}
 
-
+type Subtitles = [Subtitle]
 
 shiftSubtitle :: Subtitle -> Timing -> Subtitle
 shiftSubtitle s t = Subtitle
@@ -21,19 +21,22 @@ shiftSubtitle s t = Subtitle
                     (addTimings (end s) t)
                     (text s)
 
-splitByTiming :: Timing -> [Subtitle] -> ([Subtitle], [Subtitle])
+splitByTiming :: Timing -> Subtitles -> (Subtitles, Subtitles)
 splitByTiming t subs = partition ((>) t . beginning) subs
 
-allBefore :: Timing -> [Subtitle] -> [Subtitle]
+allBefore :: Timing -> Subtitles -> Subtitles
 allBefore t = reIndex . fst . (splitByTiming t)
 
-allAfter :: Timing -> [Subtitle] -> [Subtitle]
+allAfter :: Timing -> Subtitles -> Subtitles
 allAfter t = reIndex . snd . (splitByTiming t)
 
 
-reIndex :: [Subtitle] -> [Subtitle]
+reIndex :: Subtitles -> Subtitles
 reIndex subs = zipWith combine [1..] subs
                 where combine n sub = Subtitle n (beginning sub) (end sub) (text sub)
+
+order :: Subtitles -> Subtitles
+order = reIndex . sort
 
 
 instance Show Subtitle where

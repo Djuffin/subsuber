@@ -9,8 +9,14 @@ import Timing
 import Subtitle
 
 		
-readSrtFile :: String -> Either ParseError [Subtitle]
-readSrtFile input = parse p_srt_file "" input
+readSubtitlesOrError :: String -> Either ParseError [Subtitle]
+readSubtitlesOrError input = parse p_srt_file "" input
+
+readSubtitles :: String -> Maybe [Subtitle]
+readSubtitles input = case parse p_srt_file "" input of
+            Left err -> Nothing
+            Right s -> Just s
+
 
 renderSrtFile :: [Subtitle] -> String
 renderSrtFile subs = join (map show subs) 	
