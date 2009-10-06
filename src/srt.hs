@@ -49,7 +49,7 @@ p_timing = do
     return $ Timing hours minutes seconds milliseconds
 
 p_subtitle_text :: CharParser () String
-p_subtitle_text = manyTill anyChar ((try $ p_eol >> p_eol) <|> eof)
+p_subtitle_text = manyTill anyChar ((try $ p_eol >> skipMany1 p_eol) <|> eof)
 
 p_eol :: CharParser () ()
 p_eol = do
