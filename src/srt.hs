@@ -9,13 +9,15 @@ import Timing
 import Subtitle
 
 		
-readSubtitlesOrError :: String -> Either ParseError [Subtitle]
-readSubtitlesOrError input = parse p_srt_file "" input
+readSubtitlesOrError :: String -> Either String [Subtitle]
+readSubtitlesOrError input = case parse p_srt_file "" input of
+    Left err -> Left $ show err
+    Right subs -> Right subs
 
 readSubtitles :: String -> Maybe [Subtitle]
 readSubtitles input = case parse p_srt_file "" input of
             Left err -> Nothing
-            Right s -> Just s
+            Right subs -> Just subs
 
 
 renderSrtFile :: [Subtitle] -> String

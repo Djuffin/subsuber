@@ -5,7 +5,7 @@ module Main () where
 
 import CUI
 
-import Tests
+--import Tests
 --main = run_tests
 
 main = cui_main

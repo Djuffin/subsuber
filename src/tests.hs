@@ -106,7 +106,7 @@ prop_parse = eq sub1 expectedSub1 && eq sub2 expectedSub2
                 where
                     eq s1 s2 = (index s1 == index s2) && (beginning s1 == beginning s2) &&
                         (end s1 == end s2) && (text s1 == text s2)
-                    Just (sub1:sub2:_) = readSubtitles test_subtitles_text
+                    Just [sub1,sub2] = readSubtitles test_subtitles_text
 
 -- Run
 
