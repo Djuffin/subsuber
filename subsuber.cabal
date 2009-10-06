@@ -6,8 +6,8 @@ license: AllRightsReserved
 license-file: ""
 copyright:
 maintainer:
-build-depends: QuickCheck -any, base -any, parsec -any,
-               regex-posix -any, time -any
+build-depends: QuickCheck -any, base -any, haskell98 -any,
+               parsec -any, regex-posix -any, time -any
 stability:
 homepage:
 package-url:
@@ -22,7 +22,7 @@ data-dir: ""
 extra-source-files:
 extra-tmp-files:
  
-executable: Main
+executable: subsuber
 main-is: main.hs
 buildable: True
 build-tools:
@@ -39,7 +39,7 @@ includes:
 install-includes:
 include-dirs:
 hs-source-dirs: src
-other-modules: SRT Utils Main Subtitle Timing Tests
+other-modules: SRT Utils Main Subtitle Timing Tests CUI
 ghc-prof-options:
 ghc-shared-options:
 ghc-options:

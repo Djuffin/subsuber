@@ -115,7 +115,6 @@ options = TestOptions
       , length_of_tests = 1
       , debug_tests = False }
 
-
 run_tests = do
     runTests "Timing" options
         [ run prop_negative
