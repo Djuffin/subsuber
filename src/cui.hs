@@ -19,7 +19,7 @@ usage = do
     putStrLn "usage: subsuber command [args...]"
     putStrLn "commands: "
     putStrLn "    shift inputfile.srt outputfile.srt seconds"
-    putStrLn "    split inputfile.srt timing"
+    putStrLn "    split inputfile.srt seconds"
     putStrLn "    append inputfile1.srt imputfile2.srt outputfile.srt"
 
 
@@ -30,10 +30,9 @@ dispatch command =
         "append" -> executeAppend
         otherwise -> \_ -> usage
 
-executeShift [inputFile, outputFile, seconds] = do
+executeShift [inputFile, outputFile, timingStr] = do
     subs <- readSubtitlesFile inputFile
-    let intSeconds = read seconds :: Int
-    let timing = convertToTiming $ 1000 * intSeconds
+    let timing = readTiming timingStr
     let newSubs = map (flip shiftSubtitle timing) subs
     let outputContent = renderSrtFile newSubs
     writeFile outputFile outputContent
@@ -42,11 +41,26 @@ executeShift [inputFile, outputFile, seconds] = do
 executeShift _ = do
     putStr "arguments for shift: inputfile.srt outputfile.srt seconds"
 
-executeSplit args = do
-    putStr "do executeSplit"
+executeSplit [inputFile, timingStr] = do
+    subs <- readSubtitlesFile inputFile
+    let timing = readTiming timingStr
+    let part1subs = allBefore timing subs
+    let part2subs = allAfter timing subs
+    let part1Content = renderSrtFile part1subs
+    let part2Content = renderSrtFile part2subs
+    writeFile (inputFile ++ "-part1") part1Content
+    writeFile (inputFile ++ "-part2") part2Content
+
+
+executeSplit _ = do
+    putStr "arguments for split: inputfile.srt seconds"
+
 
 executeAppend args = do
     putStr "do executeAppend"
+
+readTiming :: String -> Timing
+readTiming seconds = convertToTiming $ 1000 * read seconds
 
 readSubtitlesFile :: FilePath -> IO Subtitles
 readSubtitlesFile filename = do
