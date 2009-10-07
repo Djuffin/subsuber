@@ -41,6 +41,9 @@ order = reIndex . sort
 append :: Subtitles -> Timing -> Subtitles -> Subtitles
 append subs1 gap subs2 = order (subs1 ++ map (flip shiftSubtitle gap) subs2)
 
+merge :: Subtitles -> Subtitles -> Subtitles
+merge subs1 subs2 = order (subs1 ++ subs2)
+
 
 
 instance Show Subtitle where

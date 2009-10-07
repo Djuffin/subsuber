@@ -20,14 +20,14 @@ usage = do
     putStrLn "commands: "
     putStrLn "    shift inputfile.srt outputfile.srt seconds"
     putStrLn "    split inputfile.srt seconds"
-    putStrLn "    append inputfile1.srt imputfile2.srt outputfile.srt"
+    putStrLn "    merge inputfile1.srt imputfile2.srt outputfile.srt"
 
 
 dispatch command =
     case map toLower command of
         "shift" -> executeShift
         "split" -> executeSplit
-        "append" -> executeAppend
+        "merge" -> executeMerge
         otherwise -> \_ -> usage
 
 executeShift [inputFile, outputFile, timingStr] = do
@@ -51,13 +51,18 @@ executeSplit [inputFile, timingStr] = do
     writeFile (inputFile ++ "-part1") part1Content
     writeFile (inputFile ++ "-part2") part2Content
 
-
 executeSplit _ = do
     putStr "arguments for split: inputfile.srt seconds"
 
 
-executeAppend args = do
-    putStr "do executeAppend"
+executeMerge [inputFile1, inputFile2, outputFile] = do
+    subs1 <- readSubtitlesFile inputFile1
+    subs2 <- readSubtitlesFile inputFile2
+    let resultContent = renderSrtFile $ merge subs1 subs2
+    writeFile outputFile resultContent
+
+executeMerge _ = do
+    putStr "arguments for merge: inputfile1.srt imputfile2.srt outputfile.srt"
 
 readTiming :: String -> Timing
 readTiming seconds = convertToTiming $ 1000 * read seconds
